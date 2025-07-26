@@ -22,7 +22,7 @@ module Jekyll
 
       params = text.shellsplit
       url = params.shift
-      params = Hash[*params.map{|val| val.split('=')}.flatten]
+      params = params.map { |val| val.split('=', 2) }.to_h
 
       resource = OEmbed::Providers.get(url, params)
       html = resource.html
@@ -52,8 +52,8 @@ module Jekyll
     def cache_get input
       max_age = 60 * 60 * 24
       file_path = cache_path input
-      if File.exists?(file_path) && (Time.now - File.mtime(file_path) < max_age)
-        return File.new(file_path).read
+      if File.exist?(file_path) && (Time.now - File.mtime(file_path) < max_age)
+        return File.read(file_path)
       end
     end
 
