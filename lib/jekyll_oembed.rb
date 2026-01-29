@@ -38,7 +38,7 @@ module Jekyll
       # resource.video?, resource.thumbnail_url
       cache_set text, "<div class='oembed #{resource.type}'>#{html}</div>"
 
-    rescue OEmbed::Error => err
+    rescue SocketError, OEmbed::Error => err
       warn "Couldn't load embeddable content from #{url} #{err.message}"
       "<a href='#{url}'>#{url}</a>"
     end
